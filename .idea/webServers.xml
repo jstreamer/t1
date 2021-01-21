@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5b39efdd-05ca-4fdc-b03e-abe78f8f49f4" name="od1" url="http://localhost">
+        <fileTransfer accessType="SFTP" host="192.168.1.10" port="22" sshConfigId="1fd8ea37-4af8-48dd-81de-9c2b422ed020" sshConfig="root@192.168.1.10:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+    <groups>
+      <group>
+        <name>local</name>
+        <servers>
+          <name value="od1" />
+        </servers>
+      </group>
+    </groups>
+  </component>
+</project>
