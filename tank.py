@@ -1,31 +1,29 @@
 import socket
 import sys
-import Odroid.GPIO as GPIO
-# You can also use 'import RPi.GPIO as GPIO'.
 import time
 import threading
+import odroid_wiringpi as wiringpi
 
-'''      
-GPIO.BCM 
-GPIO.BOAR
-GPIO.WIRI
-'''
-pin = 13
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(pin, GPIO.OUT)
+OUTPUT = 1
+left_motor_speed_pin = 23
+wiringpi.wiringPiSetup()
+wiringpi.pinMode(left_motor_speed_pin, OUTPUT)
+wiringpi.softPwmCreate(left_motor_speed_pin, 0, 100)
+
 
 left_truck_speed = 0
 right_truck_speed = 0
 left_truck_operational = True
+pulse_delay = 0.01
 
 
 def left_truck_movement_loop():
     print("Starting left track")
     while left_truck_operational:
-        GPIO.output(pin, GPIO.HIGH)
-        time.sleep(1 / (1 + left_truck_speed))
-        GPIO.output(pin, GPIO.LOW)
-        time.sleep(1 / (1 + left_truck_speed))
+        if left_truck_speed == 0:
+            wiringpi.softPwmWrite(left_motor_speed_pin, 0)
+            continue
+        wiringpi.softPwmWrite(left_motor_speed_pin, left_truck_speed)
 
 
 left_truck = threading.Thread(target=left_truck_movement_loop)
