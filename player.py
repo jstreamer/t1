@@ -9,22 +9,18 @@ server_address = ('192.168.1.10', 10000)
 print('connecting to {} port {}'.format(*server_address))
 sock.connect(server_address)
 
-try:
+while True:
+    data = input("Message: ")
 
-    # Send data
-    message = b'This is the message.  It will be repeated.'
-    print('sending {!r}'.format(message))
+    message = str.encode(data)
+    print('sending {}'.format(message))
     sock.sendall(message)
 
-    # Look for the response
-    amount_received = 0
-    amount_expected = len(message)
+    response = sock.recv(10)
+    print('received {}'.format(response))
 
-    while amount_received < amount_expected:
-        data = sock.recv(16)
-        amount_received += len(data)
-        print('received {!r}'.format(data))
-
-finally:
-    print('closing socket')
-    sock.close()
+    if str(response,"utf-8") == "terminatec":
+        print("Terminating connection")
+        break
+print('closing socket')
+sock.close()
